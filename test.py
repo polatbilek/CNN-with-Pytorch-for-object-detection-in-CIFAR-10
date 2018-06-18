@@ -6,7 +6,7 @@ import os
 import numpy as np
 from net import Net
 
-def load_net(fname, net):
+def load_net(fname, net): 
 	import h5py
 	h5f = h5py.File(fname, mode='r')
 	for k, v in net.state_dict().items():
@@ -14,7 +14,7 @@ def load_net(fname, net):
 		v.copy_(param)
 
 
-model_name = os.path.join(os.getcwd(), "ozan_acc_81.21_epoch_27.h5")
+model_name = os.path.join(os.getcwd(), "ozan_acc_81.21_epoch_27.h5") # the location is "./model_name"
 
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 

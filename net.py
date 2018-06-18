@@ -15,7 +15,7 @@ class Net(nn.Module):
 
 		self.pool = nn.MaxPool2d(2, 2)
 
-		self.fc1 = nn.Linear(conv4_dim * 3 * 3, 270)
+		self.fc1 = nn.Linear(conv4_dim * 3 * 3, 270) # 3x3 is precalculated and written, you need to do it if you want to change the # of filters
 		self.fc2 = nn.Linear(270, 150)
 		self.fc3 = nn.Linear(150, 10)
 
@@ -25,12 +25,12 @@ class Net(nn.Module):
 		self.normalize4 = nn.BatchNorm2d(conv4_dim)
 
 	def forward(self, x):
-		x = self.pool(F.relu(self.normalize1((self.conv1(x)))))
+		x = self.pool(F.relu(self.normalize1((self.conv1(x))))) # first convolutional then batch normalization then relu then max pool
 		x = self.pool(F.relu(self.normalize2((self.conv2(x)))))
 		x = self.pool(F.relu(self.normalize3((self.conv3(x)))))
 		x = self.pool(F.relu(self.normalize4((self.conv4(x)))))
 
-		x = x.view(-1, self.conv4_dim * 3 * 3)
+		x = x.view(-1, self.conv4_dim * 3 * 3) # flattening the features
 		x = F.relu(self.fc1(x))
 		x = F.relu(self.fc2(x))
 		x = self.fc3(x)
